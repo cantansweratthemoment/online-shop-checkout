@@ -10,8 +10,8 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "Сustomers")
-public class Сustomers {
+@Table(name = "Сustomer")
+public class Customer {
 
     @Id
     @Column(name = "customer_id")
