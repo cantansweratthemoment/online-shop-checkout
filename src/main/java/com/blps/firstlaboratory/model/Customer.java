@@ -24,6 +24,9 @@ public class Customer {
     @Column(name = "name", nullable = false)
     String Name;
 
+    @Column(name = "cash")
+    Long cash;
+
     @OneToMany(mappedBy="id", fetch=FetchType.EAGER)
     List<Order> orders = new ArrayList<>();
 }
