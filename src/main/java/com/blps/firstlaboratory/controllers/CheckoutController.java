@@ -39,8 +39,8 @@ public class CheckoutController {
     /**
      * Проверка на наличие продукта.
      */
-    @GetMapping("/checkExists")
-    public Map<String, Boolean> checkProductExists(@RequestParam("products") String products) {
+    @PostMapping("/checkExists")
+    public Map<String, Boolean> checkProductExists(@RequestBody String[] products) {
         return productService.checkExists(products);
     }
 
@@ -48,8 +48,8 @@ public class CheckoutController {
      * Проверка на возможность доставки продукта.
      */
     @PostMapping("/checkShippingPossibility")
-    public Map<String, Boolean> checkShippingPossibility(@RequestBody String[] products, @RequestBody String country,
-                                            @RequestBody String region) {
+    public Map<String, Boolean> checkShippingPossibility(@RequestBody String[] products, @RequestParam("country") String country,
+                                            @RequestParam("region") String region) {
         return productService.checkPossibility(products, country, region);
     }
 

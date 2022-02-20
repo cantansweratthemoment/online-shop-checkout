@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    public Map<String, Boolean> checkExists(String products) {
+    public Map<String, Boolean> checkExists(String[] products) {
         Map<String, Boolean> result = new HashMap<>();
 
-        Arrays.stream(products.split(" ")).distinct().forEach(productName ->
+        Arrays.stream(products).distinct().forEach(productName ->
                 result.put(productName, productRepository.existsByProductName(productName)));
 
         return result;
