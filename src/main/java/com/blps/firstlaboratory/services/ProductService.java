@@ -43,17 +43,27 @@ public class ProductService {
         Map<String, List<Shipping>> shippingList = new HashMap<>();
 
         //TODO: выкинуть ошибку если нет такого продукта
-        Arrays.stream(products).distinct().forEach(productName ->
-                shippingList.put(productName, productRepository.findByProductName(productName).getShippingList())
-        );
-
-        shippingList.forEach((productName, list) -> list.forEach(x -> {
-            if (x.getCountry().equals(country) && x.getRegion().equals(region)) {
-                result.put(productName, true);
+        Arrays.stream(products).distinct().forEach(productName -> {
+            if (productRepository.existsByProductName(productName)) {
+                shippingList.put(productName, productRepository.findByProductName(productName).getShippingList());
             } else {
-                result.put(productName, false);
+                shippingList.put(productName, null);
             }
-        }));
+        });
+
+        shippingList.forEach((productName, list) -> {
+            if (list == null) {
+                result.put(productName, false);
+            } else {
+                list.forEach(x -> {
+                    if (x.getCountry().equals(country) && x.getRegion().equals(region)) {
+                        result.put(productName, true);
+                    } else {
+                        result.put(productName, false);
+                    }
+                });
+            }
+        });
 
         return result;
     }
