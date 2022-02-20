@@ -1,11 +1,13 @@
 package com.blps.firstlaboratory.services;
 
+import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
 import com.blps.firstlaboratory.repostitory.ProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -39,5 +41,16 @@ public class ProductService {
         }));
 
         return result;
+    }
+
+    public List<Product> getProductsByNames(String[] products) {
+        return Arrays.stream(products).map(productRepository::findByProductName).filter(Objects::nonNull).collect(Collectors.toList());
+    }
+
+    public void reduceQuantity(List<Product> products) {
+        products.forEach(product -> {
+            Long currentQuantity = product.getQuantity();
+            product.setQuantity(currentQuantity - 1);
+        });
     }
 }

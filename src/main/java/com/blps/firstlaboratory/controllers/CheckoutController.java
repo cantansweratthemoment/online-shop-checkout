@@ -1,11 +1,16 @@
 package com.blps.firstlaboratory.controllers;
 
 import com.blps.firstlaboratory.model.Customer;
+import com.blps.firstlaboratory.model.Product;
+import com.blps.firstlaboratory.model.Shipping;
 import com.blps.firstlaboratory.services.CustomerService;
+import com.blps.firstlaboratory.services.OrderService;
 import com.blps.firstlaboratory.services.ProductService;
+import com.blps.firstlaboratory.services.ShippingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -16,6 +21,10 @@ public class CheckoutController {
     private CustomerService customerService;
     @Autowired
     private ProductService productService;
+    @Autowired
+    private OrderService orderService;
+    @Autowired
+    private ShippingService shippingService;
 
     /**
      * Добавление или поиск покупателя среди существующих.
@@ -45,11 +54,15 @@ public class CheckoutController {
     }
 
     @GetMapping("/checkPayment")
-    public Boolean checkPayment(@RequestParam("price") Long price, @RequestParam("login") String login, @RequestParam("product") String products) {
+    public Boolean checkPayment(@RequestParam("price") Long price, @RequestParam("login") String login, @RequestBody String[] products, @RequestParam String country, @RequestParam String region) {
         boolean result = customerService.checkPayment(price, login);
         if (result) {
             customerService.reduceCash(price, login);
+            List<Product> productsList = productService.getProductsByNames(products);
+            Shipping shipping = shippingService.getShippingByCountryAndRegion(country, region);
+            orderService.registerOrder(productsList, shipping);
+            productService.reduceQuantity(productsList);
         }
-        return null;
+        return result;
     }
 }
