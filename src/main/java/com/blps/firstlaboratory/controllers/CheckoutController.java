@@ -28,11 +28,9 @@ public class CheckoutController {
 
     /**
      * Добавление или поиск покупателя среди существующих.
-     * @param login
-     * @param name
      */
     @PostMapping("/addCustomer")
-    public Customer addCustomer(@RequestBody String login, @RequestBody String name) {
+    public Customer addCustomer(@RequestParam String login, @RequestParam String name) {
         return customerService.addCustomer(login, name);
     }
 
