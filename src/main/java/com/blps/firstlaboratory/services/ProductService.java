@@ -42,6 +42,7 @@ public class ProductService {
         Map<String, Boolean> result = new HashMap<>();
         Map<String, List<Shipping>> shippingList = new HashMap<>();
 
+        //TODO: выкинуть ошибку если нет такого продукта
         Arrays.stream(products).distinct().forEach(productName ->
                 shippingList.put(productName, productRepository.findByProductName(productName).getShippingList())
         );
