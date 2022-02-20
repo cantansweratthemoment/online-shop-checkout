@@ -27,7 +27,7 @@ public class ProductService {
         });
 
         count.forEach((name, cnt) -> {
-            if (productRepository.findByProductName(name).getQuantity() < cnt) {
+            if (productRepository.existsByProductName(name) || productRepository.findByProductName(name).getQuantity() < cnt) {
                 result.put(name, false);
             } else {
                 result.put(name, true);
