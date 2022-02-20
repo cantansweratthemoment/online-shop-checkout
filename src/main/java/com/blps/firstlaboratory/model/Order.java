@@ -20,9 +20,6 @@ public class Order {
     @Column(name = "date", nullable = false)
     Date date;
 
-    @Column(name = "quantity")
-    Long quantity;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "shipping", referencedColumnName = "shipping_id")
     Shipping shipping;

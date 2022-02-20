@@ -5,10 +5,6 @@ import com.blps.firstlaboratory.repostitory.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor
 public class CustomerService {
@@ -30,5 +26,11 @@ public class CustomerService {
         Customer customer = customerRepository.findCustomerByLogin(login);
         Long currentCash = customer.getCash();
         return currentCash >= price;
+    }
+
+    public void reduceCash(Long price, String login) {
+        Customer customer = customerRepository.findCustomerByLogin(login);
+        Long currentCash = customer.getCash();
+        customer.setCash(currentCash - price);
     }
 }

@@ -6,7 +6,6 @@ import com.blps.firstlaboratory.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Map;
 
 @RestController
@@ -48,9 +47,9 @@ public class CheckoutController {
     @GetMapping("/checkPayment")
     public Boolean checkPayment(@RequestParam("price") Long price, @RequestParam("login") String login, @RequestParam("product") String products) {
         boolean result = customerService.checkPayment(price, login);
-        /*if (result) {
-
-        }*/
+        if (result) {
+            customerService.reduceCash(price, login);
+        }
         return null;
     }
 }
