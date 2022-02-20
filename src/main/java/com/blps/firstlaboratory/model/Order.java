@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -16,10 +17,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product", referencedColumnName = "product_id")
-    Product product;
-
     @Column(name = "date", nullable = false)
     Date date;
 
@@ -30,4 +27,9 @@ public class Order {
     @JoinColumn(name = "shipping", referencedColumnName = "shipping_id")
     Shipping shipping;
 
+    @ManyToMany
+    @JoinTable (name="product_order",
+            joinColumns=@JoinColumn (name="order_id"),
+            inverseJoinColumns=@JoinColumn(name="product_id"))
+    List<Product> product;
 }

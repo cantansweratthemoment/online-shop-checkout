@@ -31,5 +31,10 @@ public class Product {
             inverseJoinColumns=@JoinColumn(name="shipping_id"))
     private List<Shipping> shippingList;
 
+    @ManyToMany
+    @JoinTable (name="product_order",
+            joinColumns=@JoinColumn (name="product_id"),
+            inverseJoinColumns=@JoinColumn(name="order_id"))
+    List<Order> orders;
 
 }

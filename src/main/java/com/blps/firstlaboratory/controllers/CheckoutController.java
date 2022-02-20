@@ -46,10 +46,11 @@ public class CheckoutController {
     }
 
     @GetMapping("/checkPayment")
-    public boolean checkPayment(@RequestParam("price") Long price, @RequestParam("login") String login, @RequestParam("product") String products) {
+    public Boolean checkPayment(@RequestParam("price") Long price, @RequestParam("login") String login, @RequestParam("product") String products) {
         boolean result = customerService.checkPayment(price, login);
         /*if (result) {
 
         }*/
+        return null;
     }
 }
