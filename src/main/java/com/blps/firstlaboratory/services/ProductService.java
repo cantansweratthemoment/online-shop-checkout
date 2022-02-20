@@ -27,10 +27,10 @@ public class ProductService {
         });
 
         count.forEach((name, cnt) -> {
-            if (productRepository.existsByProductName(name) && productRepository.findByProductName(name).getQuantity() < cnt) {
-                result.put(name, false);
-            } else {
+            if (productRepository.existsByProductName(name) && productRepository.findByProductName(name).getQuantity() >= cnt) {
                 result.put(name, true);
+            } else {
+                result.put(name, false);
             }
         });
 
