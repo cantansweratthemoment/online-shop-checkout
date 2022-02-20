@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class CheckoutService {
+public class CustomerService {
     private final CustomerRepository customerRepository;
 
     public Customer addCustomer(String login, String name) {
