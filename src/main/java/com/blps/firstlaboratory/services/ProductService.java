@@ -49,8 +49,7 @@ public class ProductService {
 
     public void reduceQuantity(List<Product> products) {
         products.forEach(product -> {
-            Long currentQuantity = product.getQuantity();
-            product.setQuantity(currentQuantity - 1);
+            product.setQuantity(product.getQuantity() - 1);
         });
     }
 }
