@@ -3,11 +3,12 @@ package com.blps.firstlaboratory.controllers;
 import com.blps.firstlaboratory.model.Customer;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
+import com.blps.firstlaboratory.model.requestClasses.ProductExists;
+import com.blps.firstlaboratory.model.requestClasses.ProductPossibility;
 import com.blps.firstlaboratory.services.CustomerService;
 import com.blps.firstlaboratory.services.OrderService;
 import com.blps.firstlaboratory.services.ProductService;
 import com.blps.firstlaboratory.services.ShippingService;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -40,17 +41,16 @@ public class CheckoutController {
      * Проверка на наличие продукта.
      */
     @RequestMapping(value = "checkExists", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Boolean> checkProductExists(@RequestBody String[] products) {
-        return productService.checkExists(products);
+    public Map<String, Boolean> checkProductExists(@RequestBody ProductExists products) {
+        return productService.checkExists(products.getProductNames());
     }
 
     /**
      * Проверка на возможность доставки продукта.
      */
     @PostMapping("/checkShippingPossibility")
-    public Map<String, Boolean> checkShippingPossibility(@RequestBody String[] products, @RequestParam("country") String country,
-                                            @RequestParam("region") String region) {
-        return productService.checkPossibility(products, country, region);
+    public Map<String, Boolean> checkShippingPossibility(@RequestBody ProductPossibility products) {
+        return productService.checkPossibility(products.getProductNames(), products.getCountry(), products.getRegion());
     }
 
     @GetMapping("/checkPayment")
