@@ -7,7 +7,9 @@ import com.blps.firstlaboratory.services.CustomerService;
 import com.blps.firstlaboratory.services.OrderService;
 import com.blps.firstlaboratory.services.ProductService;
 import com.blps.firstlaboratory.services.ShippingService;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,7 +39,7 @@ public class CheckoutController {
     /**
      * Проверка на наличие продукта.
      */
-    @PostMapping("/checkExists")
+    @RequestMapping(value = "checkExists", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, Boolean> checkProductExists(@RequestBody String[] products) {
         return productService.checkExists(products);
     }

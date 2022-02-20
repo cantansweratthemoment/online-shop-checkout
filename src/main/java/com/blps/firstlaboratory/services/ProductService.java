@@ -16,9 +16,23 @@ public class ProductService {
 
     public Map<String, Boolean> checkExists(String[] products) {
         Map<String, Boolean> result = new HashMap<>();
+        Map<String, Integer> count = new HashMap<>();
 
-        Arrays.stream(products).distinct().forEach(productName ->
-                result.put(productName, productRepository.existsByProductName(productName)));
+        Arrays.stream(products).forEach(productName -> {
+            if (!count.containsKey(productName)) {
+                count.put(productName, 1);
+            } else {
+                count.put(productName, count.get(productName) + 1);
+            }
+        });
+
+        count.forEach((name, cnt) -> {
+            if (productRepository.findByProductName(name).getQuantity() < cnt) {
+                result.put(name, false);
+            } else {
+                result.put(name, true);
+            }
+        });
 
         return result;
     }
