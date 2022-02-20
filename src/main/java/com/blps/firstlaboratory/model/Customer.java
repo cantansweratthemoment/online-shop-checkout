@@ -22,7 +22,7 @@ public class Customer {
     String login;
 
     @Column(name = "name", nullable = false)
-    String Name;
+    String name;
 
     @Column(name = "cash")
     Long cash;
