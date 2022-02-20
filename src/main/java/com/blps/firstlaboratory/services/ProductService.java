@@ -22,11 +22,11 @@ public class ProductService {
     }
 
 
-    public Map<String, Boolean> checkPossibility(String products, String country, String region) {
+    public Map<String, Boolean> checkPossibility(String[] products, String country, String region) {
         Map<String, Boolean> result = new HashMap<>();
         Map<String, List<Shipping>> shippingList = new HashMap<>();
 
-        Arrays.stream(products.split(" ")).distinct().forEach(productName ->
+        Arrays.stream(products).distinct().forEach(productName ->
                 shippingList.put(productName, productRepository.findByProductName(productName).getShippingList())
         );
 

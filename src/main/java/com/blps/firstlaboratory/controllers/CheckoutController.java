@@ -38,9 +38,9 @@ public class CheckoutController {
     /**
      * Проверка на возможность доставки продукта.
      */
-    @GetMapping("/checkShippingPossibility")
-    public Map<String, Boolean> checkShippingPossibility(@RequestParam("product") String products, @RequestParam("country") String country,
-                                            @RequestParam("region") String region) {
+    @PostMapping("/checkShippingPossibility")
+    public Map<String, Boolean> checkShippingPossibility(@RequestBody String[] products, @RequestBody String country,
+                                            @RequestBody String region) {
         return productService.checkPossibility(products, country, region);
     }
 
