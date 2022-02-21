@@ -16,6 +16,7 @@ public class CustomerService {
             Customer newCustomer = new Customer();
             newCustomer.setLogin(login);
             newCustomer.setName(name);
+            newCustomer.setCash(0L);
             customerRepository.save(newCustomer);
             return newCustomer;
         }

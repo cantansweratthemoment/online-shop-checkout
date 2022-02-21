@@ -3,8 +3,10 @@ package com.blps.firstlaboratory.controllers;
 import com.blps.firstlaboratory.model.Customer;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
-import com.blps.firstlaboratory.model.requestClasses.ProductExists;
-import com.blps.firstlaboratory.model.requestClasses.ProductPossibility;
+import com.blps.firstlaboratory.model.requests.AddCustomerRequest;
+import com.blps.firstlaboratory.model.requests.CheckPaymentRequest;
+import com.blps.firstlaboratory.model.requests.ProductExistsRequest;
+import com.blps.firstlaboratory.model.requests.ProductPossibilityRequest;
 import com.blps.firstlaboratory.services.CustomerService;
 import com.blps.firstlaboratory.services.OrderService;
 import com.blps.firstlaboratory.services.ProductService;
@@ -33,15 +35,15 @@ public class CheckoutController {
      * Добавление или поиск покупателя среди существующих.
      */
     @PostMapping("/addCustomer")
-    public Customer addCustomer(@RequestParam String login, @RequestParam String name) {
-        return customerService.addCustomer(login, name);
+    public Customer addCustomer(@RequestBody AddCustomerRequest request) {
+        return customerService.addCustomer(request.getLogin(), request.getName());
     }
 
     /**
      * Проверка на наличие продукта.
      */
     @RequestMapping(value = "checkExists", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, Boolean> checkProductExists(@RequestBody ProductExists products) {
+    public Map<String, Boolean> checkProductExists(@RequestBody ProductExistsRequest products) {
         return productService.checkExists(products.getProductNames());
     }
 
@@ -49,12 +51,20 @@ public class CheckoutController {
      * Проверка на возможность доставки продукта.
      */
     @PostMapping("/checkShippingPossibility")
-    public Map<String, Boolean> checkShippingPossibility(@RequestBody ProductPossibility products) {
+    public Map<String, Boolean> checkShippingPossibility(@RequestBody ProductPossibilityRequest products) {
         return productService.checkPossibility(products.getProductNames(), products.getCountry(), products.getRegion());
     }
 
-    @GetMapping("/checkPayment")
-    public Boolean checkPayment(@RequestParam("price") Long price, @RequestParam("login") String login, @RequestBody String[] products, @RequestParam String country, @RequestParam String region) {
+    /**
+     * Проверка успешной оплаты.
+     */
+    @PostMapping("/checkPayment")
+    public Boolean checkPayment(@RequestBody CheckPaymentRequest request) {
+        Long price = request.getPrice();
+        String login = request.getLogin();
+        String[] products = request.getProducts();
+        String country = request.getCountry();
+        String region = request.getRegion();
         boolean result = customerService.checkPayment(price, login);
         if (result) {
             customerService.reduceCash(price, login);
