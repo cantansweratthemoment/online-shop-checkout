@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Service
@@ -55,11 +56,15 @@ public class ProductService {
             if (list == null) {
                 result.put(productName, false);
             } else {
+                AtomicBoolean flag = new AtomicBoolean(false);
                 list.forEach(x -> {
                     if (x.getCountry().equals(country) && x.getRegion().equals(region)) {
                         result.put(productName, true);
+                        flag.set(true);
                     } else {
-                        result.put(productName, false);
+                        if(!flag.get()){
+                            result.put(productName, false);
+                        }
                     }
                 });
             }
