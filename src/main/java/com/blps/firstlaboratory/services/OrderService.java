@@ -8,7 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +21,23 @@ public class OrderService {
         order.setDate(new Date());
         order.setProduct(products);
         order.setShipping(shipping);
+    }
+
+    public boolean isOrderInfoCorrect(Map<String, Boolean> productsExistence, Map<String, Boolean> shippingPossibility) {
+        boolean allOrdersExist = true;
+        for (Boolean existence : productsExistence.values()) {
+            if (!existence) {
+                allOrdersExist = false;
+                break;
+            }
+        }
+        boolean allShippingIsPossible = true;
+        for (Boolean possibility : shippingPossibility.values()) {
+            if (!possibility) {
+                allShippingIsPossible = false;
+                break;
+            }
+        }
+        return allOrdersExist && allShippingIsPossible;
     }
 }

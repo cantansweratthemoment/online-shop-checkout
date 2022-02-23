@@ -1,5 +1,6 @@
 package com.blps.firstlaboratory.controllers;
 
+import com.blps.firstlaboratory.exceptions.WrongOrderInfoException;
 import com.blps.firstlaboratory.model.Customer;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -67,11 +69,16 @@ public class CheckoutController {
         String region = request.getRegion();
         boolean result = customerService.checkPayment(price, login);
         if (result) {
-            customerService.reduceCash(price, login);
             List<Product> productsList = productService.getProductsByNames(products);
             Shipping shipping = shippingService.getShippingByCountryAndRegion(country, region);
+            Map<String, Boolean> productsExistence = productService.checkExists(products);
+            Map<String, Boolean> shippingPossibility = productService.checkPossibility(products, country, region);
+            if (!orderService.isOrderInfoCorrect(productsExistence, shippingPossibility)) {
+                throw new WrongOrderInfoException("Order info is incorrect!");
+            }
             orderService.registerOrder(productsList, shipping);
             productService.reduceQuantity(productsList);
+            customerService.reduceCash(price, login);
         }
         return result;
     }
