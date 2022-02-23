@@ -1,10 +1,9 @@
-package com.blps.firstlaboratory.model.requests;
+package com.blps.firstlaboratory.requests;
 
 import lombok.Data;
 
 @Data
 public class CheckPaymentRequest {
-    Long price;
     String login;
     String[] products;
     String country;

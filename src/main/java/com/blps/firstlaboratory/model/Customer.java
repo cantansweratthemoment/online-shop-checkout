@@ -29,4 +29,7 @@ public class Customer {
 
     @OneToMany(mappedBy="id", fetch=FetchType.EAGER)
     List<Order> orders = new ArrayList<>();
+
+    @Column(name = "level")
+    Long level;
 }

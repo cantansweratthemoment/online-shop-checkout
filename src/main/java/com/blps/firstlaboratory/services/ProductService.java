@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Service
@@ -62,7 +63,7 @@ public class ProductService {
                         result.put(productName, true);
                         flag.set(true);
                     } else {
-                        if(!flag.get()){
+                        if (!flag.get()) {
                             result.put(productName, false);
                         }
                     }
@@ -82,5 +83,15 @@ public class ProductService {
             product.setQuantity(product.getQuantity() - 1);
             productRepository.save(product);
         });
+    }
+
+    public Long calculatePrice(List<Product> products, Double discount) {
+        Long price = 0L;
+        for (Product product : products) {
+            price += product.getPrice();
+        }
+        long discountAmount = Double.valueOf(price * discount).longValue();
+        price -= discountAmount;
+        return price;
     }
 }

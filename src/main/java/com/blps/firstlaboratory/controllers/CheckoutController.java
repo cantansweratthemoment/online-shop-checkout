@@ -4,19 +4,17 @@ import com.blps.firstlaboratory.exceptions.WrongOrderInfoException;
 import com.blps.firstlaboratory.model.Customer;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
-import com.blps.firstlaboratory.model.requests.AddCustomerRequest;
-import com.blps.firstlaboratory.model.requests.CheckPaymentRequest;
-import com.blps.firstlaboratory.model.requests.ProductExistsRequest;
-import com.blps.firstlaboratory.model.requests.ProductPossibilityRequest;
-import com.blps.firstlaboratory.services.CustomerService;
-import com.blps.firstlaboratory.services.OrderService;
-import com.blps.firstlaboratory.services.ProductService;
-import com.blps.firstlaboratory.services.ShippingService;
+import com.blps.firstlaboratory.repostitory.CustomerLevelRepository;
+import com.blps.firstlaboratory.requests.AddCustomerRequest;
+import com.blps.firstlaboratory.requests.CheckPaymentRequest;
+import com.blps.firstlaboratory.requests.ProductExistsRequest;
+import com.blps.firstlaboratory.requests.ProductPossibilityRequest;
+import com.blps.firstlaboratory.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +30,8 @@ public class CheckoutController {
     private OrderService orderService;
     @Autowired
     private ShippingService shippingService;
+    @Autowired
+    private CustomerLevelService customerLevelService;
 
     /**
      * Добавление или поиск покупателя среди существующих.
@@ -62,14 +62,17 @@ public class CheckoutController {
      */
     @PostMapping("/checkPayment")
     public Boolean checkPayment(@RequestBody CheckPaymentRequest request) {
-        Long price = request.getPrice();
         String login = request.getLogin();
         String[] products = request.getProducts();
         String country = request.getCountry();
         String region = request.getRegion();
+        List<Product> productsList = productService.getProductsByNames(products);
+        Long level = customerService.getLevel(login);
+        Double discount = customerLevelService.getDiscount(level);
+        Long price = productService.calculatePrice(productsList, discount);
+
         boolean result = customerService.checkPayment(price, login);
         if (result) {
-            List<Product> productsList = productService.getProductsByNames(products);
             Shipping shipping = shippingService.getShippingByCountryAndRegion(country, region);
             Map<String, Boolean> productsExistence = productService.checkExists(products);
             Map<String, Boolean> shippingPossibility = productService.checkPossibility(products, country, region);

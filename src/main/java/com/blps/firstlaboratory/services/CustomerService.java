@@ -35,4 +35,9 @@ public class CustomerService {
         customer.setCash(currentCash - price);
         customerRepository.save(customer);
     }
+
+    public Long getLevel(String login) {
+        Customer customer = customerRepository.findCustomerByLogin(login);
+        return  customer.getLevel();
+    }
 }

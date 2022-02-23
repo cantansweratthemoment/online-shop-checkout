@@ -1,4 +1,4 @@
-package com.blps.firstlaboratory.model.requests;
+package com.blps.firstlaboratory.requests;
 
 import lombok.Data;
 
