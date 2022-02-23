@@ -1,5 +1,6 @@
 package com.blps.firstlaboratory.services;
 
+import com.blps.firstlaboratory.exceptions.WrongOrderInfoException;
 import com.blps.firstlaboratory.model.Order;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
@@ -42,6 +43,10 @@ public class OrderService {
                 break;
             }
         }
-        return allOrdersExist && allShippingIsPossible;
+        boolean result = allOrdersExist && allShippingIsPossible;
+        if (!result) {
+            throw new WrongOrderInfoException("Order info is incorrect!");
+        }
+        return true;
     }
 }

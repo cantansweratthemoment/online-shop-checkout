@@ -12,7 +12,9 @@ import com.blps.firstlaboratory.requests.ProductPossibilityRequest;
 import com.blps.firstlaboratory.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.relational.core.sql.In;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -61,7 +63,7 @@ public class CheckoutController {
      * Проверка успешной оплаты.
      */
     @PostMapping("/checkPayment")
-    public Boolean checkPayment(@RequestBody CheckPaymentRequest request) {
+    public ResponseEntity<String> checkPayment(@RequestBody CheckPaymentRequest request) {
         String login = request.getLogin();
         String[] products = request.getProducts();
         String country = request.getCountry();
@@ -70,19 +72,20 @@ public class CheckoutController {
         Long level = customerService.getLevel(login);
         Double discount = customerLevelService.getDiscount(level);
         Long price = productService.calculatePrice(productsList, discount);
-
         boolean result = customerService.checkPayment(price, login);
         if (result) {
             Shipping shipping = shippingService.getShippingByCountryAndRegion(country, region);
             Map<String, Boolean> productsExistence = productService.checkExists(products);
             Map<String, Boolean> shippingPossibility = productService.checkPossibility(products, country, region);
-            if (!orderService.isOrderInfoCorrect(productsExistence, shippingPossibility)) {
-                throw new WrongOrderInfoException("Order info is incorrect!");
+            try {
+                orderService.isOrderInfoCorrect(productsExistence, shippingPossibility);
+            } catch (WrongOrderInfoException e) {
+                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
             }
             orderService.registerOrder(productsList, shipping, login);
             productService.reduceQuantity(productsList);
             customerService.reduceCash(price, login);
         }
-        return result;
+        return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
     }
 }
