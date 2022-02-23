@@ -33,5 +33,6 @@ public class CustomerService {
         Customer customer = customerRepository.findCustomerByLogin(login);
         Long currentCash = customer.getCash();
         customer.setCash(currentCash - price);
+        customerRepository.save(customer);
     }
 }

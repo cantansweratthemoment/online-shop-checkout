@@ -80,6 +80,7 @@ public class ProductService {
     public void reduceQuantity(List<Product> products) {
         products.forEach(product -> {
             product.setQuantity(product.getQuantity() - 1);
+            productRepository.save(product);
         });
     }
 }

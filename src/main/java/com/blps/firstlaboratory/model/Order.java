@@ -24,6 +24,9 @@ public class Order {
     @JoinColumn(name = "shipping", referencedColumnName = "shipping_id")
     Shipping shipping;
 
+    @Column(name = "customer_name")
+    String customerLogin;
+
     @ManyToMany
     @JoinTable (name="product_order",
             joinColumns=@JoinColumn (name="order_id"),

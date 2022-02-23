@@ -3,6 +3,7 @@ package com.blps.firstlaboratory.services;
 import com.blps.firstlaboratory.model.Order;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
+import com.blps.firstlaboratory.repostitory.CustomerRepository;
 import com.blps.firstlaboratory.repostitory.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,12 +16,15 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
+    private final OrderRepository orderRepository;
 
-    public void registerOrder(List<Product> products, Shipping shipping) {
+    public void registerOrder(List<Product> products, Shipping shipping, String login) {
         Order order = new Order();
         order.setDate(new Date());
+        order.setCustomerLogin(login);
         order.setProduct(products);
         order.setShipping(shipping);
+        orderRepository.save(order);
     }
 
     public boolean isOrderInfoCorrect(Map<String, Boolean> productsExistence, Map<String, Boolean> shippingPossibility) {

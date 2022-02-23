@@ -76,7 +76,7 @@ public class CheckoutController {
             if (!orderService.isOrderInfoCorrect(productsExistence, shippingPossibility)) {
                 throw new WrongOrderInfoException("Order info is incorrect!");
             }
-            orderService.registerOrder(productsList, shipping);
+            orderService.registerOrder(productsList, shipping, login);
             productService.reduceQuantity(productsList);
             customerService.reduceCash(price, login);
         }
