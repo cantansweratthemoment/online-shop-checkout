@@ -85,7 +85,8 @@ public class CheckoutController {
             orderService.registerOrder(productsList, shipping, login);
             productService.reduceQuantity(productsList);
             customerService.reduceCash(price, login);
+            return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
+        return new ResponseEntity<>("No money =(", HttpStatus.OK);
     }
 }
