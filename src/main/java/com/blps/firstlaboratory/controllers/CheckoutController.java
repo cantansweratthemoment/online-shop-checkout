@@ -4,14 +4,15 @@ import com.blps.firstlaboratory.exceptions.WrongOrderInfoException;
 import com.blps.firstlaboratory.model.Customer;
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
-import com.blps.firstlaboratory.repostitory.CustomerLevelRepository;
 import com.blps.firstlaboratory.requests.AddCustomerRequest;
 import com.blps.firstlaboratory.requests.CheckPaymentRequest;
 import com.blps.firstlaboratory.requests.ProductExistsRequest;
 import com.blps.firstlaboratory.requests.ProductPossibilityRequest;
 import com.blps.firstlaboratory.services.*;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,11 @@ public class CheckoutController {
     /**
      * Добавление или поиск покупателя среди существующих.
      */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST"),
+    })
+    @ApiOperation(value = "add customer", response = Map.class)
     @PostMapping("/addCustomer")
     public Customer addCustomer(@RequestBody AddCustomerRequest request) {
         return customerService.addCustomer(request.getLogin(), request.getName());
@@ -46,7 +52,12 @@ public class CheckoutController {
     /**
      * Проверка на наличие продукта.
      */
-    @RequestMapping(value = "checkExists", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST"),
+    })
+    @ApiOperation(value = "check exists product", response = Map.class)
+    @PostMapping(value = "checkExists")
     public Map<String, Boolean> checkProductExists(@RequestBody ProductExistsRequest products) {
         return productService.checkExists(products.getProductNames());
     }
@@ -54,6 +65,11 @@ public class CheckoutController {
     /**
      * Проверка на возможность доставки продукта.
      */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = Map.class),
+            @ApiResponse(code = 400, message = "BAD_REQUEST"),
+    })
+    @ApiOperation(value = "check shipping possibility", response = Map.class)
     @PostMapping("/checkShippingPossibility")
     public Map<String, Boolean> checkShippingPossibility(@RequestBody ProductPossibilityRequest products) {
         return productService.checkPossibility(products.getProductNames(), products.getCountry(), products.getRegion());
@@ -62,6 +78,11 @@ public class CheckoutController {
     /**
      * Проверка успешной оплаты.
      */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "Order info is incorrect!"),
+    })
+    @ApiOperation(value = "check Payment", response = ResponseEntity.class)
     @PostMapping("/checkPayment")
     public ResponseEntity<String> checkPayment(@RequestBody CheckPaymentRequest request) {
         String login = request.getLogin();
