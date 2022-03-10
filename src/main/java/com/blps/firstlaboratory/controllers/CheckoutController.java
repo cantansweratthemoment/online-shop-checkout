@@ -2,8 +2,6 @@ package com.blps.firstlaboratory.controllers;
 
 import com.blps.firstlaboratory.exceptions.WrongOrderInfoException;
 import com.blps.firstlaboratory.model.Customer;
-import com.blps.firstlaboratory.model.Product;
-import com.blps.firstlaboratory.model.Shipping;
 import com.blps.firstlaboratory.requests.AddCustomerRequest;
 import com.blps.firstlaboratory.requests.CheckPaymentRequest;
 import com.blps.firstlaboratory.requests.ProductExistsRequest;
@@ -14,11 +12,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -35,6 +31,8 @@ public class CheckoutController {
     private ShippingService shippingService;
     @Autowired
     private CustomerLevelService customerLevelService;
+    @Autowired
+    private CheckPaymentService checkPaymentService;
 
     /**
      * Добавление или поиск покупателя среди существующих.
@@ -89,25 +87,10 @@ public class CheckoutController {
         String[] products = request.getProducts();
         String country = request.getCountry();
         String region = request.getRegion();
-        List<Product> productsList = productService.getProductsByNames(products);
-        Long level = customerService.getLevel(login);
-        Double discount = customerLevelService.getDiscount(level);
-        Long price = productService.calculatePrice(productsList, discount);
-        boolean result = customerService.checkPayment(price, login);
-        if (result) {
-            Shipping shipping = shippingService.getShippingByCountryAndRegion(country, region);
-            Map<String, Boolean> productsExistence = productService.checkExists(products);
-            Map<String, Boolean> shippingPossibility = productService.checkPossibility(products, country, region);
-            try {
-                orderService.isOrderInfoCorrect(productsExistence, shippingPossibility);
-            } catch (WrongOrderInfoException e) {
-                return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-            }
-            orderService.registerOrder(productsList, shipping, login);
-            productService.reduceQuantity(productsList);
-            customerService.reduceCash(price, login);
-            return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
+        try {
+            return checkPaymentService.checkPayment(products, login, country, region);
+        } catch (WrongOrderInfoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>("No money =(", HttpStatus.OK);
     }
 }
