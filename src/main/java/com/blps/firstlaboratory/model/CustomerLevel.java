@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Setter
 @Table(name = "customer_level")
 public class CustomerLevel {
+
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

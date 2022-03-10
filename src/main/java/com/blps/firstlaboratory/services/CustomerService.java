@@ -1,6 +1,8 @@
 package com.blps.firstlaboratory.services;
 
 import com.blps.firstlaboratory.model.Customer;
+import com.blps.firstlaboratory.model.CustomerLevel;
+import com.blps.firstlaboratory.repostitory.CustomerLevelRepository;
 import com.blps.firstlaboratory.repostitory.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomerLevelRepository customerLevelRepository;
+
 
     public Customer addCustomer(String login, String name) {
         Customer customer = customerRepository.findCustomerByLogin(login);
@@ -17,6 +21,7 @@ public class CustomerService {
             newCustomer.setLogin(login);
             newCustomer.setName(name);
             newCustomer.setCash(0L);
+            newCustomer.setLevel(customerLevelRepository.getCustomerLevelById(1L));
             customerRepository.save(newCustomer);
             return newCustomer;
         }
@@ -38,6 +43,6 @@ public class CustomerService {
 
     public Long getLevel(String login) {
         Customer customer = customerRepository.findCustomerByLogin(login);
-        return  customer.getLevel();
+        return  customer.getLevel().getId();
     }
 }

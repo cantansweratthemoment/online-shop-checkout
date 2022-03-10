@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Table(name = "Сustomer")
+@Table(name = "Customer")
 public class Customer {
 
     @Id
@@ -30,6 +30,7 @@ public class Customer {
     @OneToMany(mappedBy="id", fetch=FetchType.EAGER)
     List<Order> orders = new ArrayList<>();
 
-    @Column(name = "level")
-    Long level;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "level", referencedColumnName = "id")
+    CustomerLevel level;
 }
