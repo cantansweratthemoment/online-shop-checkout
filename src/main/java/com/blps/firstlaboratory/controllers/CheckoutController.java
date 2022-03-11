@@ -93,4 +93,25 @@ public class CheckoutController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    /**
+     * Проверка бесплатного админского заказа.
+     */
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ResponseEntity.class),
+            @ApiResponse(code = 400, message = "Order info is incorrect!"),
+    })
+    @ApiOperation(value = "check admin Payment", response = ResponseEntity.class)
+    @PostMapping("/checkAdminPayment")
+    public ResponseEntity<String> checkAdminPayment(@RequestBody CheckPaymentRequest request) {
+        String login = request.getLogin();
+        String[] products = request.getProducts();
+        String country = request.getCountry();
+        String region = request.getRegion();
+        try {
+            return checkPaymentService.checkAdminPayment(products, login, country, region);
+        } catch (WrongOrderInfoException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

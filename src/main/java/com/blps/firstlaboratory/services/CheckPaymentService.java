@@ -17,6 +17,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CheckPaymentService {
 
+    private static final Double ADMIN_DISCOUNT = 1.0;
+
     @Autowired
     private ProductService productService;
 
@@ -37,6 +39,25 @@ public class CheckPaymentService {
         List<Product> productsList = productService.getProductsByNames(products);
         Long level = customerService.getLevel(login);
         Double discount = customerLevelService.getDiscount(level);
+        Long price = productService.calculatePrice(productsList, discount);
+        boolean result = customerService.checkPayment(price, login);
+        if (result) {
+            Shipping shipping = shippingService.getShippingByCountryAndRegion(country, region);
+            Map<String, Boolean> productsExistence = productService.checkExists(products);
+            Map<String, Boolean> shippingPossibility = productService.checkPossibility(products, country, region);
+            orderService.isOrderInfoCorrect(productsExistence, shippingPossibility);
+            orderService.registerOrder(productsList, shipping, login);
+            productService.reduceQuantity(productsList);
+            customerService.reduceCash(price, login);
+            return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("No money =(", HttpStatus.OK);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    public ResponseEntity<String> checkAdminPayment(String[] products, String login, String country, String region) {
+        List<Product> productsList = productService.getProductsByNames(products);
+        Double discount = ADMIN_DISCOUNT;
         Long price = productService.calculatePrice(productsList, discount);
         boolean result = customerService.checkPayment(price, login);
         if (result) {
