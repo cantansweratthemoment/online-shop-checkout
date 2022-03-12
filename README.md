@@ -1,2 +1,2 @@
-# blps-1
-first lab on BLPS
+# blps
+business logic lab
