@@ -37,4 +37,10 @@ public class Product {
             inverseJoinColumns=@JoinColumn(name="order_id"))
     List<Order> orders;
 
+    @Column(name = "times_bought", nullable = false)
+    Integer timesBought;
+
+    @ManyToOne
+    @JoinColumn(name = "type", referencedColumnName = "id")
+    ProductType productType;
 }

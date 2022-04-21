@@ -81,6 +81,7 @@ public class ProductService {
     public void reduceQuantity(List<Product> products) {
         products.forEach(product -> {
             product.setQuantity(product.getQuantity() - 1);
+            product.setTimesBought(product.getTimesBought() + 1);
             productRepository.save(product);
         });
     }
