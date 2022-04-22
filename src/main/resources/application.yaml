@@ -2,13 +2,18 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5430/studs
     username: s285317
-    password: olyaIloveYou
+    password: 
     driverClassName: org.postgresql.Driver
-
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     generate-ddl: true
     database: postgresql
+  activemq:
+    broker-url: tcp://localhost:61616
+    user: admin
+    password: admin
+
+
+queueName: mail
