@@ -2,6 +2,7 @@ package com.blps.firstlaboratory.services;
 
 import com.blps.firstlaboratory.model.Product;
 import com.blps.firstlaboratory.model.Shipping;
+import com.blps.firstlaboratory.utils.Sender;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,9 @@ import java.util.Map;
 public class CheckPaymentService {
 
     private static final Double ADMIN_DISCOUNT = 1.0;
+
+    @Autowired
+    Sender sender;
 
     @Autowired
     private ProductService productService;
@@ -49,6 +53,8 @@ public class CheckPaymentService {
             orderService.registerOrder(productsList, shipping, login);
             productService.reduceQuantity(productsList);
             customerService.reduceCash(price, login);
+
+            sender.send(customerService.getMail(login));
             return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
         }
         return new ResponseEntity<>("No money =(", HttpStatus.OK);
@@ -68,6 +74,8 @@ public class CheckPaymentService {
             orderService.registerOrder(productsList, shipping, login);
             productService.reduceQuantity(productsList);
             customerService.reduceCash(price, login);
+
+            sender.send(customerService.getMail(login));
             return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
         }
         return new ResponseEntity<>("No money =(", HttpStatus.OK);

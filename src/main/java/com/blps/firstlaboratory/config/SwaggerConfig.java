@@ -1,4 +1,4 @@
-package com.example.task.utils;
+package com.blps.firstlaboratory.config;
 
 
 import org.springframework.context.annotation.Bean;

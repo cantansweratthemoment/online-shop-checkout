@@ -17,8 +17,12 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.inMemoryAuthentication().withUser("user1")
-                .password(encoder().encode("password")).roles("USER").authorities("ROLE_ADMIN");
+        auth.inMemoryAuthentication()
+                .withUser("user")
+                .password(encoder().encode("password")).roles("USER")
+        .and()
+                .withUser("admin")
+                .password(encoder().encode("password")).roles("ADMIN");
     }
 
     @Override
@@ -26,7 +30,8 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf()
                 .disable()
                 .authorizeRequests()
-                .anyRequest().authenticated()
+                .antMatchers("/checkout/checkAdminPayment").hasRole("ADMIN")
+                .antMatchers("/checkout/**").hasRole("USER")
                 .and()
                 .httpBasic();
     }
@@ -35,4 +40,5 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected PasswordEncoder encoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
+
 }

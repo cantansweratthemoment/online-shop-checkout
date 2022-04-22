@@ -14,12 +14,13 @@ public class CustomerService {
     private final CustomerLevelRepository customerLevelRepository;
 
 
-    public Customer addCustomer(String login, String name) {
+    public Customer addCustomer(String login, String name, String mail) {
         Customer customer = customerRepository.findCustomerByLogin(login);
         if (customer == null) {
             Customer newCustomer = new Customer();
             newCustomer.setLogin(login);
             newCustomer.setName(name);
+            newCustomer.setMail(mail);
             newCustomer.setCash(0L);
             newCustomer.setLevel(customerLevelRepository.getCustomerLevelById(1L));
             customerRepository.save(newCustomer);
@@ -44,5 +45,10 @@ public class CustomerService {
     public Long getLevel(String login) {
         Customer customer = customerRepository.findCustomerByLogin(login);
         return  customer.getLevel().getId();
+    }
+
+    public String getMail(String login){
+        Customer customer = customerRepository.findCustomerByLogin(login);
+        return  customer.getMail();
     }
 }

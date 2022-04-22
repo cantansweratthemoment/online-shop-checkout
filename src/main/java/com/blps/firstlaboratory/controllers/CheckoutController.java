@@ -44,7 +44,7 @@ public class CheckoutController {
     @ApiOperation(value = "add customer", response = Map.class)
     @PostMapping("/addCustomer")
     public Customer addCustomer(@RequestBody AddCustomerRequest request) {
-        return customerService.addCustomer(request.getLogin(), request.getName());
+        return customerService.addCustomer(request.getLogin(), request.getName(), request.getMail());
     }
 
     /**

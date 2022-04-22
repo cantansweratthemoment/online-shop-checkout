@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.sql.Timestamp;
 
 @Entity
 @Getter
@@ -18,13 +19,13 @@ public class PopularProducts {
     Long id;
 
     @Column(name = "time", nullable = false)
-    String time;
+    Timestamp time;
 
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "id")
     ProductType type;
 
     @ManyToOne
-    @JoinColumn(name = "product", referencedColumnName = "product_name")
+    @JoinColumn(name = "product", referencedColumnName = "product_id")
     Product product;
 }

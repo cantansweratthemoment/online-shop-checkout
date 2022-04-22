@@ -24,6 +24,9 @@ public class Customer {
     @Column(name = "name", nullable = false)
     String name;
 
+    @Column(name = "mail", nullable = false)
+    String mail;
+
     @Column(name = "cash")
     Long cash;
 

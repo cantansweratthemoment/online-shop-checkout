@@ -10,8 +10,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -23,10 +21,9 @@ public class ProductRecommendationsService {
 
     @Scheduled(cron = "@daily")
     public void getMostPopularProductsInEachCategory() {
-        PopularProducts popularProducts = new PopularProducts();
-        List<ProductType> productTypes = productTypeRepository.getAll();
-        for (ProductType productType :
-                productTypes) {
+        List<ProductType> productTypes = productTypeRepository.findAll();
+        for (ProductType productType : productTypes) {
+            PopularProducts popularProducts = new PopularProducts();
             List<Product> productsWithThisType = productRepository.findAllByProductTypeIs(productType);
             if (productsWithThisType.isEmpty()) {
                 continue;
@@ -39,7 +36,7 @@ public class ProductRecommendationsService {
                     maxInd = i;
                 }
             }
-            popularProducts.setTime(new SimpleDateFormat("yyyyMMdd_HHmmss").format(Calendar.getInstance().getTime()));
+            popularProducts.setTime(java.sql.Timestamp.valueOf(java.time.LocalDateTime.now()));
             popularProducts.setType(productType);
             popularProducts.setProduct(productsWithThisType.get(maxInd));
             popularProductsRepository.save(popularProducts);
