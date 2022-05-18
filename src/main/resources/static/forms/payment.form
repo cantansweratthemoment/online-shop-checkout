@@ -1,0 +1,53 @@
+{
+  "components": [
+    {
+      "label": "Login",
+      "type": "textfield",
+      "id": "Field_04zoene",
+      "key": "login",
+      "description": "Login",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Products",
+      "type": "textfield",
+      "id": "Field_0jykiix",
+      "key": "products",
+      "description": "Products cherez zpayatuyu",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Country",
+      "type": "textfield",
+      "id": "Field_1yn3qov",
+      "key": "country",
+      "description": "Country",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Region",
+      "type": "textfield",
+      "id": "Field_0xnobsi",
+      "key": "region",
+      "description": "Region",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "payment",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.17.0",
+  "schemaVersion": 4
+}

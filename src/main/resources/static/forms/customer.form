@@ -1,0 +1,46 @@
+{
+  "components": [
+    {
+      "label": "Login",
+      "type": "textfield",
+      "id": "Field_06saod1",
+      "key": "login",
+      "description": "Login",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Name",
+      "type": "textfield",
+      "id": "Field_1gw0cbm",
+      "key": "name",
+      "description": "Name",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Mail",
+      "type": "textfield",
+      "id": "Field_13ed7um",
+      "key": "mail",
+      "description": "Mail",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    }
+  ],
+  "type": "default",
+  "id": "customer",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.17.0",
+  "schemaVersion": 4
+}

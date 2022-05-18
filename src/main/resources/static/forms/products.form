@@ -1,0 +1,23 @@
+{
+  "components": [
+    {
+      "label": "Products",
+      "type": "textfield",
+      "id": "Field_0dv73cz",
+      "key": "products",
+      "description": "cherez zapyatuyu",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "products",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.17.0",
+  "schemaVersion": 4
+}

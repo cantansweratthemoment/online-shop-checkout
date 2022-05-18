@@ -1,0 +1,45 @@
+{
+  "components": [
+    {
+      "label": "Products",
+      "type": "textfield",
+      "id": "Field_19g9zqd",
+      "key": "products",
+      "description": "cherez zapyatuyu",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "label": "Country",
+      "type": "textfield",
+      "id": "Field_1ww7nmv",
+      "key": "conutry",
+      "description": "Country",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    },
+    {
+      "label": "Region",
+      "type": "textfield",
+      "id": "Field_0cqytxs",
+      "key": "region",
+      "description": "Region",
+      "validate": {
+        "required": true,
+        "minLength": 1
+      }
+    }
+  ],
+  "type": "default",
+  "id": "shipping",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.0.0"
+  },
+  "executionPlatform": "Camunda Platform",
+  "executionPlatformVersion": "7.17.0",
+  "schemaVersion": 4
+}
