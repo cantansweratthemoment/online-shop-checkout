@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
 import javax.inject.Named;
+import java.util.Map;
 
 @Named
 @RequiredArgsConstructor
@@ -17,6 +18,14 @@ public class ProductAvailabilityDelegate implements JavaDelegate {
         String productsS = (String) delegateExecution.getVariable("products");
         productsS = productsS.trim();
         String[] products = productsS.split(" ");
-        productService.checkExists(products);
+        Map<String, Boolean> result = productService.checkExists(products);
+        boolean is_available = true;
+        for (Boolean i : result.values()) {
+            if (!i) {
+                is_available = false;
+                break;
+            }
+        }
+        delegateExecution.setVariable("is_available", is_available);
     }
 }

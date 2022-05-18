@@ -14,7 +14,7 @@
       "label": "Country",
       "type": "textfield",
       "id": "Field_1ww7nmv",
-      "key": "conutry",
+      "key": "country",
       "description": "Country",
       "validate": {
         "required": true,
@@ -31,10 +31,17 @@
         "required": true,
         "minLength": 1
       }
+    },
+    {
+      "action": "submit",
+      "label": "Submit",
+      "type": "button",
+      "id": "Field_0jl4fbw",
+      "key": "field_06evukg"
     }
   ],
   "type": "default",
-  "id": "shipping",
+  "id": "Shipping",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.0.0"

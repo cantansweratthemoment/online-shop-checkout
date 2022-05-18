@@ -14,6 +14,17 @@ spring:
     broker-url: tcp://localhost:61616
     user: admin
     password: admin
-
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  main:
+    allow-circular-references: true
 
 queueName: mail
+
+camunda:
+  bpm:
+    database:
+      schema-update: true
+      table-prefix: s285317.
+      type: postgres

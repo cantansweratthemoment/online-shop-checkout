@@ -54,7 +54,7 @@ public class CheckPaymentService {
             productService.reduceQuantity(productsList);
             customerService.reduceCash(price, login);
 
-            sender.send(customerService.getMail(login));
+//            sender.send(customerService.getMail(login));
             return new ResponseEntity<>("Payment successful!", HttpStatus.OK);
         }
         return new ResponseEntity<>("No money =(", HttpStatus.OK);

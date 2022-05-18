@@ -8,11 +8,20 @@
       "description": "cherez zapyatuyu",
       "validate": {
         "required": true
-      }
+      },
+      "disabled": false,
+      "properties": {}
+    },
+    {
+      "action": "submit",
+      "label": "Submit",
+      "type": "button",
+      "id": "Field_1egliou",
+      "key": "field_1j52ho5"
     }
   ],
   "type": "default",
-  "id": "products",
+  "id": "Products",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.0.0"

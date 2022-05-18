@@ -32,10 +32,17 @@
         "required": true,
         "minLength": 1
       }
+    },
+    {
+      "action": "submit",
+      "label": "Submit",
+      "type": "button",
+      "id": "Field_1pqtcgv",
+      "key": "field_0a02wte"
     }
   ],
   "type": "default",
-  "id": "customer",
+  "id": "Customer",
   "exporter": {
     "name": "Camunda Modeler",
     "version": "5.0.0"
