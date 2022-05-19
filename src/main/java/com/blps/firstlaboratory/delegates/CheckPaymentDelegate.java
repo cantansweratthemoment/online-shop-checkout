@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 
 import javax.inject.Named;
@@ -15,6 +16,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class CheckPaymentDelegate implements JavaDelegate {
     private final CheckPaymentService checkPaymentService;
+
+    @Autowired
     private IdentityService identityService;
 
     @Override

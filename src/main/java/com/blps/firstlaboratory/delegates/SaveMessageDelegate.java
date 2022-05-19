@@ -16,6 +16,8 @@ public class SaveMessageDelegate implements JavaDelegate {
                 .createMessageCorrelation("savedMessage")
                 .setVariable("mail", delegateExecution.getVariable("mail"))
                 .setVariable("products", delegateExecution.getVariable("products"))
+                .setVariable("country", delegateExecution.getVariable("country"))
+                .setVariable("region", delegateExecution.getVariable("region"))
                 .correlate();
     }
 }

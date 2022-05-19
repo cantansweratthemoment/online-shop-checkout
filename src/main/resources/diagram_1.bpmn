@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:modeler="http://camunda.org/schema/modeler/1.0" id="Definitions_0fjes22" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="5.0.0" modeler:executionPlatform="Camunda Platform" modeler:executionPlatformVersion="7.17.0">
   <bpmn:collaboration id="Collaboration_0w14w4j">
-    <bpmn:participant id="Participant_1moojh0" name="Pornhub order" processRef="Process_1b1bbux" />
-    <bpmn:participant id="Participant_06ylgg4" name="Product Recommendations" processRef="Process_0b4gt6k" />
-    <bpmn:participant id="Participant_0ccrmsg" name="Mail" processRef="Process_1kqvxey" />
+    <bpmn:participant id="Participant_1moojh0" name="Pornhub order" processRef="CustomersInterface" />
+    <bpmn:participant id="Participant_06ylgg4" name="Product Recommendations" processRef="scheduledMethod" />
+    <bpmn:participant id="Participant_0ccrmsg" name="Mail" processRef="MailSendler" />
   </bpmn:collaboration>
-  <bpmn:process id="Process_1b1bbux" isExecutable="true">
+  <bpmn:process id="CustomersInterface" isExecutable="true">
     <bpmn:laneSet id="LaneSet_0k7fcli">
       <bpmn:lane id="Lane_1lfs6qy">
         <bpmn:flowNodeRef>Gateway_1saxbku</bpmn:flowNodeRef>
@@ -79,7 +79,7 @@
       </bpmn:exclusiveGateway>
       <bpmn:endEvent id="Event_0mfgp1s" name="Impossible to make an order">
         <bpmn:incoming>Flow_0wuq8gy</bpmn:incoming>
-        <bpmn:errorEventDefinition id="ErrorEventDefinition_1heh8jt" errorRef="Error_05ndbko" />
+        <bpmn:errorEventDefinition id="ErrorEventDefinition_1heh8jt" errorRef="Error_00ok1hp" />
       </bpmn:endEvent>
       <bpmn:sequenceFlow id="Flow_0rglhmn" sourceRef="Event_0w35cnu" targetRef="Activity_0bd3y0f" />
       <bpmn:sequenceFlow id="Flow_04ftsy3" sourceRef="Activity_0bd3y0f" targetRef="Gateway_1ori533" />
@@ -105,7 +105,7 @@
     </bpmn:endEvent>
     <bpmn:endEvent id="Event_0z3lt4q" name="Impossible to make an order">
       <bpmn:incoming>Flow_0t9wvbh</bpmn:incoming>
-      <bpmn:errorEventDefinition id="ErrorEventDefinition_01y6sua" errorRef="Error_05ndbko" />
+      <bpmn:errorEventDefinition id="ErrorEventDefinition_01y6sua" errorRef="Error_15mbgb3" />
     </bpmn:endEvent>
     <bpmn:serviceTask id="Activity_1fdqy4t" name="Check delivery availability" camunda:delegateExpression="#{shippingPossibilityDelegate}">
       <bpmn:extensionElements>
@@ -146,9 +146,7 @@
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
     <bpmn:userTask id="Activity_1d3af4o" name="Payment" camunda:formRef="Payment" camunda:formRefBinding="deployment">
-      <bpmn:extensionElements>
-        <camunda:executionListener expression="${task.execution.setVariable(&#39;groupAss&#39;, task.assignee)}" event="end" />
-      </bpmn:extensionElements>
+      <bpmn:extensionElements />
       <bpmn:incoming>Flow_1dhcge3</bpmn:incoming>
       <bpmn:outgoing>Flow_0d9ltl9</bpmn:outgoing>
     </bpmn:userTask>
@@ -174,9 +172,9 @@
     </bpmn:exclusiveGateway>
     <bpmn:dataStoreReference id="DataStoreReference_0u8u0h5" name="Products" />
   </bpmn:process>
-  <bpmn:error id="Error_05ndbko" name="Impossible tomake an order" errorCode="404" camunda:errorMessage="Impossible tomake an order" />
-  <bpmn:error id="Error_15mbgb3" name="Impossible tomake an order" errorCode="404" camunda:errorMessage="Impossible tomake an order" />
-  <bpmn:process id="Process_0b4gt6k" isExecutable="true">
+  <bpmn:error id="Error_05ndbko" name="Impossible to make an order" errorCode="Доставка в данный регион невозможна" camunda:errorMessage="Impossible to make an order" />
+  <bpmn:error id="Error_15mbgb3" name="inStock" errorCode="Не все проукты есть в наличии" camunda:errorMessage="Impossible tomake an order" />
+  <bpmn:process id="scheduledMethod" isExecutable="true">
     <bpmn:startEvent id="Event_167b7sb">
       <bpmn:outgoing>Flow_1lnu1gl</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1qgzrgn">
@@ -194,7 +192,7 @@
     <bpmn:sequenceFlow id="Flow_1lnu1gl" sourceRef="Event_167b7sb" targetRef="Activity_0nnhghm" />
   </bpmn:process>
   <bpmn:message id="Message_2kdlch6" name="savedMessage" />
-  <bpmn:process id="Process_1kqvxey" isExecutable="true">
+  <bpmn:process id="MailSendler" isExecutable="true">
     <bpmn:startEvent id="Event_0h0xwmo">
       <bpmn:outgoing>Flow_1xf64du</bpmn:outgoing>
       <bpmn:messageEventDefinition id="MessageEventDefinition_0b1ow2z" messageRef="Message_2kdlch6" />
@@ -210,6 +208,7 @@
     <bpmn:sequenceFlow id="Flow_1xf64du" sourceRef="Event_0h0xwmo" targetRef="Activity_0bo65zm" />
     <bpmn:sequenceFlow id="Flow_0hrnja8" sourceRef="Activity_0bo65zm" targetRef="Event_0x5ymx1" />
   </bpmn:process>
+  <bpmn:error id="Error_00ok1hp" name="payment" errorCode="Недостаточно средств" camunda:errorMessage="Impossible to make an order" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0w14w4j">
       <bpmndi:BPMNShape id="Participant_1moojh0_di" bpmnElement="Participant_1moojh0" isHorizontal="true">

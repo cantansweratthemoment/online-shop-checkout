@@ -29,10 +29,6 @@ public class ShippingPossibilityDelegate implements JavaDelegate {
                 break;
             }
         }
-        System.out.println("VALUE ->  "  + is_delivery);
-        System.out.println("VALUE ->  "  + Arrays.toString(products));
-        System.out.println("VALUE ->  "  + country);
-        System.out.println("VALUE ->  "  + region);
 
         delegateExecution.setVariable("is_delivery", is_delivery);
     }
