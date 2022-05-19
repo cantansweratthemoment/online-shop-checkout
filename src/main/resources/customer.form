@@ -5,7 +5,7 @@
       "type": "textfield",
       "id": "Field_06saod1",
       "key": "login",
-      "description": "Login",
+      "description": "Логин",
       "validate": {
         "required": true,
         "minLength": 1
@@ -16,7 +16,7 @@
       "type": "textfield",
       "id": "Field_1gw0cbm",
       "key": "name",
-      "description": "Name",
+      "description": "Имя",
       "validate": {
         "required": true,
         "minLength": 1
@@ -27,7 +27,7 @@
       "type": "textfield",
       "id": "Field_13ed7um",
       "key": "mail",
-      "description": "Mail",
+      "description": "Адрес электронной почты",
       "validate": {
         "required": true,
         "minLength": 1

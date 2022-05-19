@@ -5,7 +5,7 @@
       "type": "textfield",
       "id": "Field_19g9zqd",
       "key": "products",
-      "description": "cherez zapyatuyu",
+      "description": "Перечислите продукты через пробел",
       "validate": {
         "required": true
       }
@@ -15,7 +15,7 @@
       "type": "textfield",
       "id": "Field_1ww7nmv",
       "key": "country",
-      "description": "Country",
+      "description": "Страна",
       "validate": {
         "required": true,
         "minLength": 1
@@ -26,7 +26,7 @@
       "type": "textfield",
       "id": "Field_0cqytxs",
       "key": "region",
-      "description": "Region",
+      "description": "Регион",
       "validate": {
         "required": true,
         "minLength": 1

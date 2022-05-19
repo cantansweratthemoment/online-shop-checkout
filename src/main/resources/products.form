@@ -5,7 +5,7 @@
       "type": "textfield",
       "id": "Field_0dv73cz",
       "key": "products",
-      "description": "cherez zapyatuyu",
+      "description": "Перечислите продукты через пробел",
       "validate": {
         "required": true
       },

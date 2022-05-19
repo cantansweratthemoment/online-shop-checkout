@@ -178,7 +178,7 @@
     <bpmn:startEvent id="Event_167b7sb">
       <bpmn:outgoing>Flow_1lnu1gl</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1qgzrgn">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT10S</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Activity_0nnhghm" name="Get most popular products in each category" camunda:delegateExpression="#{getMostPopularProductsInEachCategoryDelegate}">

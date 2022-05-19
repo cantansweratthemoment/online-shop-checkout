@@ -5,7 +5,7 @@
       "type": "textfield",
       "id": "Field_04zoene",
       "key": "login",
-      "description": "Login",
+      "description": "Ваш логин",
       "validate": {
         "required": true
       }
@@ -15,7 +15,7 @@
       "type": "textfield",
       "id": "Field_0jykiix",
       "key": "products",
-      "description": "Products cherez zpayatuyu",
+      "description": "Перечислите продукты через пробел",
       "validate": {
         "required": true
       }
@@ -25,7 +25,7 @@
       "type": "textfield",
       "id": "Field_1yn3qov",
       "key": "country",
-      "description": "Country",
+      "description": "Страна доставки",
       "validate": {
         "required": true
       }
@@ -35,7 +35,7 @@
       "type": "textfield",
       "id": "Field_0xnobsi",
       "key": "region",
-      "description": "Region",
+      "description": "Регион доставки",
       "validate": {
         "required": true
       }

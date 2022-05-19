@@ -34,7 +34,7 @@ public class CheckPaymentService {
     @Autowired
     private OrderService orderService;
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    //@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResponseEntity<String> checkPayment(String[] products, String login, String country, String region) {
         List<Product> productsList = productService.getProductsByNames(products);
         Long level = customerService.getLevel(login);
@@ -54,7 +54,7 @@ public class CheckPaymentService {
         return new ResponseEntity<>("No money =(", HttpStatus.OK);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
+    //@Transactional(propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
     public ResponseEntity<String> checkAdminPayment(String[] products, String login, String country, String region) {
         List<Product> productsList = productService.getProductsByNames(products);
         Double discount = ADMIN_DISCOUNT;
