@@ -19,7 +19,7 @@ public class ProductRecommendationsService {
     private final PopularProductsRepository popularProductsRepository;
     private final ProductRepository productRepository;
 
-    //@Scheduled(cron = "@daily")
+//    @Scheduled(cron = "@daily")
     public void getMostPopularProductsInEachCategory() {
         List<ProductType> productTypes = productTypeRepository.findAll();
         for (ProductType productType : productTypes) {
