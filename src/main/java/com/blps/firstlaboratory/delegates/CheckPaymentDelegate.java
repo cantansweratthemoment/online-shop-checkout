@@ -17,6 +17,7 @@ public class CheckPaymentDelegate implements JavaDelegate {
 
     @Override
     public void execute(DelegateExecution delegateExecution) throws Exception {
+        
         String login = (String) delegateExecution.getVariable("login");
         String productsS = (String) delegateExecution.getVariable("products");
         productsS = productsS.trim();
@@ -24,6 +25,7 @@ public class CheckPaymentDelegate implements JavaDelegate {
         String country = (String) delegateExecution.getVariable("country");
         String region = (String) delegateExecution.getVariable("region");
         ResponseEntity<String> result = checkPaymentService.checkPayment(products, login, country, region);
+
         if(Objects.requireNonNull(result.getBody()).equals("Payment successful!")){
             delegateExecution.setVariable("is_payment", true);
         }else {
