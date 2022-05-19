@@ -146,7 +146,9 @@
       </bpmn:dataOutputAssociation>
     </bpmn:serviceTask>
     <bpmn:userTask id="Activity_1d3af4o" name="Payment" camunda:formRef="Payment" camunda:formRefBinding="deployment">
-      <bpmn:extensionElements />
+      <bpmn:extensionElements>
+        <camunda:executionListener expression="${task.execution.setVariable(&#39;groupAss&#39;, task.assignee)}" event="end" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1dhcge3</bpmn:incoming>
       <bpmn:outgoing>Flow_0d9ltl9</bpmn:outgoing>
     </bpmn:userTask>
@@ -174,11 +176,11 @@
   </bpmn:process>
   <bpmn:error id="Error_05ndbko" name="Impossible tomake an order" errorCode="404" camunda:errorMessage="Impossible tomake an order" />
   <bpmn:error id="Error_15mbgb3" name="Impossible tomake an order" errorCode="404" camunda:errorMessage="Impossible tomake an order" />
-  <bpmn:process id="Process_0b4gt6k" isExecutable="false">
+  <bpmn:process id="Process_0b4gt6k" isExecutable="true">
     <bpmn:startEvent id="Event_167b7sb">
       <bpmn:outgoing>Flow_1lnu1gl</bpmn:outgoing>
       <bpmn:timerEventDefinition id="TimerEventDefinition_1qgzrgn">
-        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/PT10S</bpmn:timeCycle>
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R/P1D</bpmn:timeCycle>
       </bpmn:timerEventDefinition>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Activity_0nnhghm" name="Get most popular products in each category" camunda:delegateExpression="#{getMostPopularProductsInEachCategoryDelegate}">
